@@ -1,9 +1,15 @@
-For post-installation usage tips such as installing binary
-packages, please see:
-https://wiki.minix3.org/doku.php?id=usersguide:postinstallation
+==============WELCOME TO MINIX====================================================
 
-For more information on how to use MINIX 3, see the wiki:
-https://wiki.minix3.org
+  Este es un proyecto con fines educativos.                      =*
+  El objetivo es aprender los principios fundamentales          ==**
+  de los Sistemas Operativos.                                 ====****
+                                                            ======******
+  Utilizaremos Minix3 para modificar e implementar        ========********
+  componentes como procesos, planificacion y sistema    ==========    ######
+  de archivos.                                        ============    ####
+                                                    ==============  @@##
+                                                  ================   @#
 
-We'd like your feedback: https://minix3.org/community/
+  made by: @jotaBello                        FACULTAD DE MATEMATICA Y COMPUTACION
 
+==================================================================================
