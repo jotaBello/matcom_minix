@@ -1,15 +1,15 @@
-==============WELCOME TO MINIX====================================================
+==============WELCOME TO MINIX==================================================
 
-  Este es un proyecto con fines educativos.                      =*
-  El objetivo es aprender los principios fundamentales          ==**
-  de los Sistemas Operativos.                                 ====****
-                                                            ======******
-  Utilizaremos Minix3 para modificar e implementar        ========********
-  componentes como procesos, planificacion y sistema    ==========    ######
-  de archivos.                                        ============    ####
-                                                    ==============  @@##
-                                                  ================   @#
+  Este es un proyecto con fines educativos.                    =*
+  El objetivo es aprender los principios fundamentales        ==**
+  de los Sistemas Operativos.                               ====****
+                                                          ======******
+  Utilizaremos Minix3 para modificar e implementar      ========********
+  componentes como procesos, planificacion y sistema  ==========    ######
+  de archivos.                                      ============    ####
+                                                  ==============  @@##
+                                                ================   @#
 
-  made by: @jotaBello                        FACULTAD DE MATEMATICA Y COMPUTACION
+  made by: @jotaBello                      FACULTAD DE MATEMATICA Y COMPUTACION
 
-==================================================================================
+================================================================================
