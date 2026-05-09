@@ -16,7 +16,7 @@
 static unsigned balance_timeout;
 
 #define BALANCE_TIMEOUT	5 /* how often to balance queues in seconds */
-
+#define CPU_BOUND_THRESHOLD 3 /* minimum exhausted quantums to be considered CPU-bound */
 static int schedule_process(struct schedproc * rmp, unsigned flags);
 
 #define SCHEDULE_CHANGE_PRIO	0x1
@@ -96,9 +96,7 @@ int do_noquantum(message *m_ptr)
 	}
 
 	rmp = &schedproc[proc_nr_n];
-	if (rmp->priority < MIN_USER_Q) {
-		rmp->priority += 1; /* lower priority */
-	}
+	rmp->quantum_count++; /* increment exhausted quantum counter */
 
 	if ((rv = schedule_process_local(rmp)) != OK) {
 		return rv;
@@ -164,6 +162,7 @@ int do_start_scheduling(message *m_ptr)
 	if (rmp->max_priority >= NR_SCHED_QUEUES) {
 		return EINVAL;
 	}
+	rmp->quantum_count = 0;
 
 	/* Inherit current priority and time slice from parent. Since there
 	 * is currently only one scheduler scheduling the whole system, this
@@ -357,10 +356,21 @@ void balance_queues(void)
 
 	for (proc_nr=0, rmp=schedproc; proc_nr < NR_PROCS; proc_nr++, rmp++) {
 		if (rmp->flags & IN_USE) {
-			if (rmp->priority > rmp->max_priority) {
-				rmp->priority -= 1; /* increase priority */
-				schedule_process_local(rmp);
+			if (rmp->quantum_count >= CPU_BOUND_THRESHOLD) {
+				// CPU-bound process
+				if (rmp->priority < MIN_USER_Q){
+					rmp->priority+=1; /* lower priority */
+					schedule_process_local(rmp);
+				}
 			}
+			else{
+				// Interactive process
+				if (rmp->priority > rmp->max_priority) {
+					rmp->priority -= 1; /* higher priority */
+					schedule_process_local(rmp);
+				}
+			}	
+			rmp->quantum_count = 0;
 		}
 	}
 
