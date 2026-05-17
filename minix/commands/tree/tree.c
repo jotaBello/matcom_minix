@@ -72,7 +72,8 @@ void tree(char *path){
 
     printf("%s",path);
     printf("\n");
-
+    
+    last[0]=1;
     rtree(path,0);
 
     printf("\n");
