@@ -9,28 +9,43 @@ int files_count;
 int dir_count;
 int last[1024];
 
-void rtree(char *path,int depth,int parentLast){
-    DIR *dir = opendir(path);
-    struct dirent *file = readdir(dir);
-    struct dirent *next;
-
-    while( file != NULL ) {
+int NumberOfDirectories(DIR *dir){
+    int idx=0;
+    struct dirent *file;
+    while( (file = readdir(dir)) != NULL ) {
         if (file->d_name[0] == '.') {
-            file = readdir(dir);
             continue;
         }
+        idx+=1;
+    }
+    return idx;
+}
+
+void rtree(char *path,int depth){
+    DIR *dir = opendir(path);
+    int num_of_dir = NumberOfDirectories(dir);
+    rewinddir(dir);  
+    struct dirent *file;
+    int idx = 0;
+
+    while( (file = readdir(dir)) != NULL ) {
+        if (file->d_name[0] == '.') {
+            continue;
+        }
+
+        idx+=1;
 
         for (int i = 0; i < depth; i++) {
             if(last[i])printf("     ");
             else printf("|    ");
-            
         }
 
-        next = readdir(dir);
-        if(next==NULL)printf("`-- %s\n", file->d_name);
+        int isLast = (idx == num_of_dir);
+
+        if(isLast)printf("`-- %s\n", file->d_name);
         else printf("|-- %s\n", file->d_name);
 
-        last[depth]=next==NULL;
+        last[depth]=isLast;
 
         char str[1024];
         strcpy(str, path );
@@ -40,13 +55,12 @@ void rtree(char *path,int depth,int parentLast){
         struct stat st;
         if (lstat(str, &st) == 0 &&  S_ISDIR(st.st_mode)) {
             dir_count++;
-            rtree(str,depth+1,next==NULL);
+            rtree(str,depth+1);
         }
         else{
             files_count++;
         }
-
-        file=next;
+        
     }
     
     closedir(dir);
@@ -59,7 +73,7 @@ void tree(char *path){
     printf("%s",path);
     printf("\n");
 
-    rtree(path,0,1);
+    rtree(path,0);
 
     printf("\n");
 
