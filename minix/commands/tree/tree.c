@@ -35,6 +35,7 @@ void rtree(char *path,int depth){
 
         idx+=1;
 
+        /* PRINT IDENTATION ACCORDING THE ANCESTORS */
         for (int i = 0; i < depth; i++) {
             if(last[i])printf("     ");
             else printf("|    ");
@@ -42,9 +43,11 @@ void rtree(char *path,int depth){
 
         int isLast = (idx == num_of_dir);
 
+        /* PRINT PREFIX ACCORDING THE CURRENT DIRECTORY* + FILE NAME */
         if(isLast)printf("`-- %s\n", file->d_name);
         else printf("|-- %s\n", file->d_name);
 
+        /* SET IF THIS DIRECTORY IS THE LAST OF THEIR PARENT'S CHILDREN */
         last[depth]=isLast;
 
         char str[1024];
@@ -72,8 +75,7 @@ void tree(char *path){
 
     printf("%s",path);
     printf("\n");
-    
-    last[0]=1;
+
     rtree(path,0);
 
     printf("\n");
